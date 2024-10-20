@@ -12,6 +12,10 @@ class RegisterScreen extends StatefulWidget {
 class _RegisterScreen extends State<RegisterScreen> {
   @override
   Widget build(BuildContext context) {
-    return Scaffold(body: Center(child: Text(widget.title)));
+    return Scaffold(
+      body: Center(
+        child: Text(widget.title),
+      ),
+    );
   }
 }
