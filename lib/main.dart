@@ -16,7 +16,7 @@ class MyApp extends StatelessWidget {
         useMaterial3: true,
         colorScheme: ColorScheme.fromSeed(seedColor: Colors.orange),
       ),
-      home: const LoginScreen(title: 'Login Page'),
+      home: const LoginScreen(),
     );
   }
 }

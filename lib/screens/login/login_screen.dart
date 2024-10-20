@@ -6,9 +6,7 @@ import 'package:bee_corp_app/screens/login/register_screen.dart';
 import 'package:flutter/material.dart';
 
 class LoginScreen extends StatefulWidget {
-  const LoginScreen({super.key, required this.title});
-
-  final String title;
+  const LoginScreen({super.key});
 
   @override
   State<LoginScreen> createState() => _LoginScreen();
@@ -52,15 +50,26 @@ class _LoginScreen extends State<LoginScreen> {
                           ScaffoldMessenger.of(context).showSnackBar(
                             const SnackBar(content: Text('Processing Data')),
                           );
-
-                          Navigator.of(context).push(MaterialPageRoute(
-                              builder: (context) => const RegisterScreen(
-                                    title: "TESTE",
-                                  )));
                         }
                       },
                       child: const Text('Login'),
-                    ))
+                    )),
+                    Row(
+                      mainAxisAlignment: MainAxisAlignment.center,
+                      children: [
+                        const Text("Não possui uma conta cadastrada? "),
+                        GestureDetector(
+                            onTap: () =>
+                                Navigator.of(context).push(MaterialPageRoute(
+                                    builder: (context) => const RegisterScreen(
+                                          title: "RegisterScreen",
+                                        ))),
+                            child: const Text(
+                              "Cadastre-se",
+                              style: TextStyle(fontWeight: FontWeight.bold),
+                            ))
+                      ],
+                    )
                   ],
                 )),
           ],
