@@ -1,3 +1,9 @@
+import 'dart:developer';
+
+import 'package:bee_corp_app/controllers/sign_in_controller.dart';
+import 'package:bee_corp_app/controllers/sign_up_controller.dart';
+import 'package:bee_corp_app/controllers/sign_up_storage_controller.dart';
+import 'package:bee_corp_app/models/sign_up_model.dart';
 import 'package:bee_corp_app/screens/login/components/button_field.dart';
 import 'package:bee_corp_app/screens/login/components/input_field.dart';
 import 'package:bee_corp_app/screens/login/components/password_input_field.dart';
@@ -14,6 +20,22 @@ class LoginScreen extends StatefulWidget {
 
 class _LoginScreen extends State<LoginScreen> {
   final _formKey = GlobalKey<FormState>();
+
+  final SignUpController _signUpController =
+      SignUpController(SignUpStorageController());
+
+  final TextEditingController _userEmailLogin = TextEditingController();
+  final TextEditingController _userPasswordLogin = TextEditingController();
+
+  @override
+  void initState() {
+    _signUpController.getSignUpUsers();
+    _signUpController.setSignUpModels(
+        SignUpModel("teste", "teste", "teste", "teste", "teste", "teste"));
+    _signUpController.saveSignUpUser(context);
+    _signUpController.getSignUpUsers();
+    super.initState();
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -32,6 +54,7 @@ class _LoginScreen extends State<LoginScreen> {
               child: Column(
                 children: [
                   InputField(
+                      inputController: _userEmailLogin,
                       keyboardType: TextInputType.emailAddress,
                       labelText: 'Email',
                       hintText: 'Digite o seu Email',
@@ -40,6 +63,7 @@ class _LoginScreen extends State<LoginScreen> {
                           ? "Por favor, digite o seu email"
                           : null),
                   PasswordInputField(
+                      inputController: _userPasswordLogin,
                       validator: (value) => value!.isEmpty
                           ? "Por favor, digite a sua senha"
                           : null),
@@ -47,14 +71,16 @@ class _LoginScreen extends State<LoginScreen> {
                     child: ButtonField(
                       onPressed: () {
                         if (_formKey.currentState!.validate()) {
-                          ScaffoldMessenger.of(context).showSnackBar(
-                            const SnackBar(
-                              content: Text('Processing Data'),
-                            ),
-                          );
+                          bool isLoginValid =
+                              SignInController(_signUpController).checkLogin(
+                                  _userEmailLogin.text,
+                                  _userPasswordLogin.text,
+                                  context);
+
+                          if (isLoginValid) {}
                         }
                       },
-                      child: const Text('Login'),
+                      child: const Text('Entrar'),
                     ),
                   ),
                   Row(

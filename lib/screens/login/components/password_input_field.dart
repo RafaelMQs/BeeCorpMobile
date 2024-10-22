@@ -2,9 +2,11 @@ import 'package:bee_corp_app/screens/login/components/text_field_container.dart'
 import 'package:flutter/material.dart';
 
 class PasswordInputField extends StatefulWidget {
+  final TextEditingController inputController;
   final FormFieldValidator<String> validator;
 
-  const PasswordInputField({super.key, required this.validator});
+  const PasswordInputField(
+      {super.key, required this.inputController, required this.validator});
 
   @override
   State<PasswordInputField> createState() => _PasswordInputField();
@@ -17,6 +19,7 @@ class _PasswordInputField extends State<PasswordInputField> {
   Widget build(BuildContext context) {
     return TextFieldContainer(
       child: TextFormField(
+          controller: widget.inputController,
           obscureText: hidePassword,
           keyboardType: TextInputType.visiblePassword,
           decoration: InputDecoration(
