@@ -37,6 +37,8 @@ dependencies:
   cupertino_icons: ^1.0.8
   flutter_native_splash: ^2.4.2
   shared_preferences: ^2.3.2
+  get_it: ^8.0.1
+  google_nav_bar: ^5.0.6
 
 dev_dependencies:
   flutter_test:

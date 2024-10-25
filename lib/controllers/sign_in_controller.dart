@@ -7,9 +7,8 @@ class SignInController {
 
   SignInController(this._signUpController);
 
-  bool checkLogin(String userEmail, String userPassword, BuildContext context) {
-    _signUpController.getSignUpUsers();
-    List<SignUpModel> signUpUsersModel = _signUpController.signUpModels.value;
+  bool checkLogin(String userEmail, String userPassword) {
+    List<SignUpModel> signUpUsersModel = _signUpController.getSignUpUsers();
 
     SignUpModel? signUpUserModelFiltered = signUpUsersModel
         .where((signUpUser) =>
@@ -17,33 +16,6 @@ class SignInController {
             userPassword == signUpUser.userPassword)
         .firstOrNull;
 
-    if (context.mounted) {
-      if (signUpUserModelFiltered != null) {
-        ScaffoldMessenger.of(context)
-          ..removeCurrentSnackBar()
-          ..showSnackBar(
-            const SnackBar(
-                content: Text("Usuario logado com sucesso!"),
-                backgroundColor: Colors.green,
-                duration: Duration(seconds: 1)),
-          );
-
-        return true;
-      } else {
-        ScaffoldMessenger.of(context)
-          ..removeCurrentSnackBar()
-          ..showSnackBar(
-            const SnackBar(
-              content: Text("Login invalido!"),
-              backgroundColor: Colors.red,
-              duration: Duration(seconds: 1),
-            ),
-          );
-
-        return false;
-      }
-    }
-
-    return false;
+    return signUpUserModelFiltered != null;
   }
 }

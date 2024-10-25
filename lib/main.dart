@@ -1,7 +1,10 @@
+import 'package:bee_corp_app/main_module.dart';
 import 'package:bee_corp_app/screens/login/login_screen.dart';
 import 'package:flutter/material.dart';
 
 void main() {
+  WidgetsFlutterBinding.ensureInitialized();
+  MainModule.init();
   runApp(const MyApp());
 }
 

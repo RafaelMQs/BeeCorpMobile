@@ -1,48 +1,45 @@
-import 'package:bee_corp_app/controllers/sign_up_storage_controller.dart';
+import 'dart:convert';
+import 'dart:developer';
+import 'package:bee_corp_app/controllers/local_storage/local_storage.dart';
 import 'package:bee_corp_app/models/sign_up_model.dart';
 import 'package:flutter/material.dart';
+import 'package:get_it/get_it.dart';
 
 // ignore: constant_identifier_names
 const String LIST_OF_USERS_KEY = 'LIST_OF_USERS_KEY';
 
 class SignUpController {
-  final SignUpStorageController _storageController;
+  LocalStorageResult saveSignUpUser(
+      SignUpModel signUpModel, BuildContext context) {
+    List<SignUpModel> signUpModelList = [...getSignUpUsers(), signUpModel];
 
-  SignUpController(this._storageController);
-
-  final ValueNotifier<List<SignUpModel>> signUpModels = ValueNotifier([]);
-
-  void setSignUpModels(SignUpModel signUpModel) {
-    signUpModels.value = [...signUpModels.value, signUpModel];
-  }
-
-  Future<void> saveSignUpUser(BuildContext context) async {
-    await _storageController.signUpUser(signUpModels.value);
-
-    if (context.mounted) {
-      ScaffoldMessenger.of(context).showSnackBar(
-        const SnackBar(
-          content: Text("Usuario salvo com sucesso!"),
-          backgroundColor: Colors.green,
-          duration: Duration(seconds: 1),
-        ),
-      );
+    if (signUpModelList
+        .any((value) => value.userEmail == signUpModel.userEmail)) {
+      return LocalStorageResult.alreadyExists;
     }
+
+    final String dateToBeSaved = jsonEncode(
+        signUpModelList.map((signUpModel) => signUpModel.toMap()).toList());
+
+    final result = GetIt.I
+        .get<LocalStorage>()
+        .saveString(LIST_OF_USERS_KEY, dateToBeSaved);
+
+    return result;
   }
 
-  Future<void> getSignUpUsers() async {
-    signUpModels.value = await _storageController.getSignUpUsers();
-  }
+  List<SignUpModel> getSignUpUsers() {
+    final result = GetIt.I.get<LocalStorage>().getString(LIST_OF_USERS_KEY);
 
-  Future<void> deleteAllSignUpUsers(BuildContext context) async {
-    await _storageController.deleteAllSignUpUsers();
+    if (result!.isNotEmpty) {
+      final dateFromStorage = (jsonDecode(result) as List)
+          .map<SignUpModel>(
+              (signUpModelMap) => SignUpModel.fromMap(signUpModelMap))
+          .toList();
 
-    signUpModels.value = [];
-
-    if (context.mounted) {
-      ScaffoldMessenger.of(context).showSnackBar(
-        const SnackBar(content: Text("Usuarios limpos com sucesso!")),
-      );
+      return dateFromStorage.toList();
     }
+
+    return [];
   }
 }
