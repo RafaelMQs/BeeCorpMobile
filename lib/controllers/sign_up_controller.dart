@@ -11,12 +11,12 @@ const String LIST_OF_USERS_KEY = 'LIST_OF_USERS_KEY';
 class SignUpController {
   LocalStorageResult saveSignUpUser(
       SignUpModel signUpModel, BuildContext context) {
-    List<SignUpModel> signUpModelList = [...getSignUpUsers(), signUpModel];
-
-    if (signUpModelList
+    if (getSignUpUsers()
         .any((value) => value.userEmail == signUpModel.userEmail)) {
       return LocalStorageResult.alreadyExists;
     }
+
+    List<SignUpModel> signUpModelList = [...getSignUpUsers(), signUpModel];
 
     final String dateToBeSaved = jsonEncode(
         signUpModelList.map((signUpModel) => signUpModel.toMap()).toList());

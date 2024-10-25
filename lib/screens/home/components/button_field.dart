@@ -13,11 +13,13 @@ class ButtonField extends StatefulWidget {
 class _ButtonField extends State<ButtonField> {
   @override
   Widget build(BuildContext context) {
+    final ColorScheme colorScheme = Theme.of(context).colorScheme;
+
     return MaterialButton(
       minWidth: double.infinity,
       height: 40,
       onPressed: widget.onPressed,
-      color: Theme.of(context).colorScheme.inversePrimary,
+      color: colorScheme.inversePrimary,
       child: widget.child,
     );
   }

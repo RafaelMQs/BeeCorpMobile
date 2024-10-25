@@ -10,9 +10,18 @@ class SettingsNavScreen extends StatefulWidget {
 class _SettingsNavScreen extends State<SettingsNavScreen> {
   @override
   Widget build(BuildContext context) {
-    return const Scaffold(
-        body: Center(
-      child: Text("SETTINGS"),
-    ));
+    final ColorScheme colorScheme = Theme.of(context).colorScheme;
+
+    return Scaffold(
+      appBar: AppBar(
+        automaticallyImplyLeading: false,
+        title: const Text('Settings'),
+        backgroundColor: colorScheme.inversePrimary,
+        shadowColor: colorScheme.shadow,
+      ),
+      body: const Center(
+        child: Text("Settings"),
+      ),
+    );
   }
 }
