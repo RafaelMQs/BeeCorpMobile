@@ -21,7 +21,7 @@ class _HomeScreen extends State<HomeScreen> {
     ),
     GButton(
       icon: Icons.add,
-      text: "Adicionar Colmeias",
+      text: "Adicionar Registro",
     ),
     GButton(
       icon: Icons.settings,
@@ -37,19 +37,34 @@ class _HomeScreen extends State<HomeScreen> {
 
   @override
   Widget build(BuildContext context) {
+    final ColorScheme _colorScheme = Theme.of(context).colorScheme;
+
     return Scaffold(
       body: Center(
         child: widgets[_tabIndex],
       ),
-      bottomNavigationBar: Padding(
-        padding: const EdgeInsets.symmetric(horizontal: 15, vertical: 15),
-        child: GNav(
-          color: Theme.of(context).colorScheme.inverseSurface,
-          activeColor: Theme.of(context).colorScheme.inverseSurface,
-          tabBackgroundColor: Theme.of(context).colorScheme.inversePrimary,
-          onTabChange: (index) => setState(() => _tabIndex = index),
-          padding: const EdgeInsets.all(10),
-          tabs: tabButtons,
+      bottomNavigationBar: Container(
+        decoration: BoxDecoration(
+          color: _colorScheme.surface,
+          boxShadow: [
+            BoxShadow(
+              blurRadius: 20,
+              color: Colors.black.withOpacity(.05),
+            )
+          ],
+        ),
+        child: SafeArea(
+          child: Padding(
+            padding: const EdgeInsets.symmetric(horizontal: 15, vertical: 15),
+            child: GNav(
+              color: _colorScheme.inverseSurface,
+              activeColor: _colorScheme.inverseSurface,
+              tabBackgroundColor: _colorScheme.inversePrimary,
+              onTabChange: (index) => setState(() => _tabIndex = index),
+              padding: const EdgeInsets.all(10),
+              tabs: tabButtons,
+            ),
+          ),
         ),
       ),
     );

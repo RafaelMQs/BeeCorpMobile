@@ -18,6 +18,7 @@ class _SettingsNavScreen extends State<SettingsNavScreen> {
         title: const Text('Settings'),
         backgroundColor: colorScheme.inversePrimary,
         shadowColor: colorScheme.shadow,
+        elevation: 1,
       ),
       body: const Center(
         child: Text("Settings"),

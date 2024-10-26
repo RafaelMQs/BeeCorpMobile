@@ -53,7 +53,7 @@ class _RegisterScreen extends State<RegisterScreen> {
       children: [
         InputField(
             inputController: _userNameLogin,
-            keyboardType: TextInputType.emailAddress,
+            keyboardType: TextInputType.name,
             labelText: 'Nome',
             hintText: 'Digite o seu Nome',
             prefixIcon: const Icon(Icons.people),
@@ -73,7 +73,7 @@ class _RegisterScreen extends State<RegisterScreen> {
                 value!.isEmpty ? "Por favor, digite a sua senha" : null),
         InputField(
             inputController: _userPhoneLogin,
-            keyboardType: TextInputType.emailAddress,
+            keyboardType: TextInputType.phone,
             labelText: 'Telefone',
             hintText: 'Digite o seu Telefone',
             prefixIcon: const Icon(Icons.phone),
@@ -81,7 +81,7 @@ class _RegisterScreen extends State<RegisterScreen> {
                 value!.isEmpty ? "Por favor, digite o seu telefone" : null),
         InputField(
             inputController: _userZipCodeLogin,
-            keyboardType: TextInputType.emailAddress,
+            keyboardType: TextInputType.text,
             labelText: 'Cep',
             hintText: 'Digite o seu CEP',
             prefixIcon: const Icon(Icons.map_sharp),
@@ -89,7 +89,7 @@ class _RegisterScreen extends State<RegisterScreen> {
                 value!.isEmpty ? "Por favor, digite o seu cep" : null),
         InputField(
             inputController: _userAddressLogin,
-            keyboardType: TextInputType.emailAddress,
+            keyboardType: TextInputType.streetAddress,
             labelText: 'Endereço',
             hintText: 'Digite o seu Endereço',
             prefixIcon: const Icon(Icons.home),

@@ -1,5 +1,6 @@
 import 'package:bee_corp_app/screens/login/components/text_field_container.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 
 class InputField extends StatefulWidget {
   final TextEditingController inputController;
@@ -27,6 +28,9 @@ class _InputField extends State<InputField> {
   Widget build(BuildContext context) {
     return TextFieldContainer(
       child: TextFormField(
+          inputFormatters: widget.keyboardType == TextInputType.number
+              ? [FilteringTextInputFormatter.digitsOnly]
+              : null,
           controller: widget.inputController,
           keyboardType: widget.keyboardType,
           decoration: InputDecoration(
