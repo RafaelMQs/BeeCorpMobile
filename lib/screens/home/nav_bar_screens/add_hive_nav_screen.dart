@@ -1,10 +1,17 @@
+import 'dart:developer';
+
+import 'package:bee_corp_app/controllers/hive_controller.dart';
 import 'package:bee_corp_app/controllers/local_storage/local_storage.dart';
-import 'package:bee_corp_app/controllers/sign_up_controller.dart';
-import 'package:bee_corp_app/models/sign_up_model.dart';
+import 'package:bee_corp_app/controllers/sign_in_controller.dart';
+import 'package:bee_corp_app/models/hive_model.dart';
+import 'package:bee_corp_app/models/sign_in_model.dart';
 import 'package:bee_corp_app/screens/login/components/button_field.dart';
 import 'package:bee_corp_app/screens/login/components/input_field.dart';
 import 'package:bee_corp_app/screens/login/components/text_field_container.dart';
+import 'package:bee_corp_app/screens/login/login_screen.dart';
+import 'package:bee_corp_app/screens/utils/common_utils.dart';
 import 'package:flutter/material.dart';
+import 'package:uuid/uuid.dart';
 
 class AddHiveNavScreen extends StatefulWidget {
   const AddHiveNavScreen({super.key});
@@ -16,7 +23,8 @@ class AddHiveNavScreen extends StatefulWidget {
 class _AddHiveNavScreen extends State<AddHiveNavScreen> {
   final _formKey = GlobalKey<FormState>();
 
-  final SignUpController _signUpController = SignUpController();
+  final SignInController _signInController = SignInController();
+  final HiveController _hiveController = HiveController();
 
   final TextEditingController _hiveCode = TextEditingController();
   final TextEditingController _hiveWeight = TextEditingController();
@@ -67,7 +75,7 @@ class _AddHiveNavScreen extends State<AddHiveNavScreen> {
             keyboardType: TextInputType.number,
             labelText: 'Peso',
             hintText: 'Digite o Peso de sua Colmeia',
-            prefixIcon: const Icon(Icons.email),
+            prefixIcon: const Icon(Icons.line_weight),
             validator: (value) => value!.isEmpty
                 ? "Por favor, digite o peso de sua colmeia"
                 : null),
@@ -76,13 +84,13 @@ class _AddHiveNavScreen extends State<AddHiveNavScreen> {
             keyboardType: TextInputType.text,
             labelText: 'Status',
             hintText: 'Digite o Status de sua Colmeia',
-            prefixIcon: const Icon(Icons.email),
+            prefixIcon: const Icon(Icons.message),
             validator: (value) => value!.isEmpty
                 ? "Por favor, digite o status de sua colmeia"
                 : null),
         TextFieldContainer(
           child: ButtonField(
-            onPressed: () => (),
+            onPressed: () => registerHive(),
             child: const Text('Adicionar'),
           ),
         ),
@@ -90,27 +98,42 @@ class _AddHiveNavScreen extends State<AddHiveNavScreen> {
     );
   }
 
-  // void doRegister() {
-  //   if (_formKey.currentState!.validate()) {
-  //     SignUpModel signUpModel = SignUpModel(
-  //         _userNameLogin.text,
-  //         _userEmailLogin.text,
-  //         _userPasswordLogin.text,
-  //         _userPhoneLogin.text,
-  //         _userZipCodeLogin.text,
-  //         _userAddressLogin.text);
+  void registerHive() {
+    if (_formKey.currentState!.validate()) {
+      SignInModel? loginUser = _signInController.getSignInUser();
+      if (loginUser != null) {
+        HiveModel hiveModel = HiveModel(
+          const Uuid().v7(),
+          loginUser.userId,
+          _hiveCode.text,
+          _hiveWeight.text,
+          _hiveStatus.text,
+        );
 
-  //     final result = _signUpController.saveSignUpUser(signUpModel, context);
+        LocalStorageResult result = _hiveController.saveHive(hiveModel);
 
-  //     if (result == LocalStorageResult.saved) {
-  //       CommonUtils.showSnackBar(
-  //           "Usuario salvo com sucesso!", Colors.green, context);
-  //     } else if (result == LocalStorageResult.alreadyExists) {
-  //       CommonUtils.showSnackBar("Email já existente!", Colors.orange, context);
-  //     } else {
-  //       CommonUtils.showSnackBar(
-  //           "Houve um erro ao salvar o usuario!", Colors.red, context);
-  //     }
-  //   }
-  // }
+        if (result != LocalStorageResult.failed) {
+          CommonUtils.showSnackBar(
+              "Registro salvo com sucesso!", Colors.green, context);
+        } else {
+          CommonUtils.showSnackBar(
+              "Houve um erro ao salvar seu registro, tente novamente mais tarde",
+              Colors.red,
+              context);
+        }
+      } else {
+        CommonUtils.showSnackBar(
+            "Houve um erro com sua sessão. Entre novamente!",
+            Colors.red,
+            context);
+
+        Navigator.pushAndRemoveUntil<void>(
+          context,
+          MaterialPageRoute<void>(
+              builder: (BuildContext context) => const LoginScreen()),
+          ModalRoute.withName('/'),
+        );
+      }
+    }
+  }
 }

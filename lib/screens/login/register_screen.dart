@@ -7,6 +7,7 @@ import 'package:bee_corp_app/screens/login/components/password_input_field.dart'
 import 'package:bee_corp_app/screens/login/components/text_field_container.dart';
 import 'package:bee_corp_app/screens/utils/common_utils.dart';
 import 'package:flutter/material.dart';
+import 'package:uuid/uuid.dart';
 
 class RegisterScreen extends StatefulWidget {
   const RegisterScreen({super.key, required this.title});
@@ -128,6 +129,7 @@ class _RegisterScreen extends State<RegisterScreen> {
   void doRegister() {
     if (_formKey.currentState!.validate()) {
       SignUpModel signUpModel = SignUpModel(
+          const Uuid().v7(),
           _userNameLogin.text,
           _userEmailLogin.text,
           _userPasswordLogin.text,
@@ -135,7 +137,7 @@ class _RegisterScreen extends State<RegisterScreen> {
           _userZipCodeLogin.text,
           _userAddressLogin.text);
 
-      final result = _signUpController.saveSignUpUser(signUpModel, context);
+      final result = _signUpController.saveSignUpUser(signUpModel);
 
       if (result == LocalStorageResult.saved) {
         CommonUtils.showSnackBar(

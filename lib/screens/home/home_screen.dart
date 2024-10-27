@@ -37,7 +37,7 @@ class _HomeScreen extends State<HomeScreen> {
 
   @override
   Widget build(BuildContext context) {
-    final ColorScheme _colorScheme = Theme.of(context).colorScheme;
+    final ColorScheme colorScheme = Theme.of(context).colorScheme;
 
     return Scaffold(
       body: Center(
@@ -45,7 +45,7 @@ class _HomeScreen extends State<HomeScreen> {
       ),
       bottomNavigationBar: Container(
         decoration: BoxDecoration(
-          color: _colorScheme.surface,
+          color: colorScheme.surface,
           boxShadow: [
             BoxShadow(
               blurRadius: 20,
@@ -57,9 +57,9 @@ class _HomeScreen extends State<HomeScreen> {
           child: Padding(
             padding: const EdgeInsets.symmetric(horizontal: 15, vertical: 15),
             child: GNav(
-              color: _colorScheme.inverseSurface,
-              activeColor: _colorScheme.inverseSurface,
-              tabBackgroundColor: _colorScheme.inversePrimary,
+              color: colorScheme.inverseSurface,
+              activeColor: colorScheme.inverseSurface,
+              tabBackgroundColor: colorScheme.inversePrimary,
               onTabChange: (index) => setState(() => _tabIndex = index),
               padding: const EdgeInsets.all(10),
               tabs: tabButtons,

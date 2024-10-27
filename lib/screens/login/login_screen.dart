@@ -1,5 +1,7 @@
+import 'package:bee_corp_app/controllers/local_storage/local_storage.dart';
 import 'package:bee_corp_app/controllers/sign_in_controller.dart';
-import 'package:bee_corp_app/controllers/sign_up_controller.dart';
+import 'package:bee_corp_app/models/sign_in_model.dart';
+import 'package:bee_corp_app/models/sign_up_model.dart';
 import 'package:bee_corp_app/screens/home/home_screen.dart';
 import 'package:bee_corp_app/screens/login/components/button_field.dart';
 import 'package:bee_corp_app/screens/login/components/input_field.dart';
@@ -19,8 +21,7 @@ class LoginScreen extends StatefulWidget {
 class _LoginScreen extends State<LoginScreen> {
   final _formKey = GlobalKey<FormState>();
 
-  final SignUpController _signUpController = SignUpController();
-
+  final SignInController _signInController = SignInController();
   final TextEditingController _userEmailLogin = TextEditingController();
   final TextEditingController _userPasswordLogin = TextEditingController();
 
@@ -90,17 +91,35 @@ class _LoginScreen extends State<LoginScreen> {
 
   void doLogin() {
     if (_formKey.currentState!.validate()) {
-      bool isLoginValid = SignInController(_signUpController)
-          .checkLogin(_userEmailLogin.text, _userPasswordLogin.text);
+      SignUpModel? loginUser = _signInController.getLoginUser(
+          _userEmailLogin.text, _userPasswordLogin.text);
 
-      if (isLoginValid) {
-        CommonUtils.showSnackBar(
-            "Usuario logado com sucesso!", Colors.green, context);
+      if (loginUser != null) {
+        SignInModel signInModel = SignInModel(
+            loginUser.userId,
+            loginUser.userName,
+            loginUser.userEmail,
+            loginUser.userPhone,
+            loginUser.userZipCode,
+            loginUser.userAddress);
 
-        Navigator.push(
-          context,
-          MaterialPageRoute(builder: (context) => const HomeScreen()),
-        );
+        LocalStorageResult result =
+            _signInController.saveSignInUser(signInModel);
+
+        if (result != LocalStorageResult.failed) {
+          CommonUtils.showSnackBar(
+              "Usuario logado com sucesso!", Colors.green, context);
+
+          Navigator.push(
+            context,
+            MaterialPageRoute(builder: (context) => const HomeScreen()),
+          );
+        } else {
+          CommonUtils.showSnackBar(
+              "Houve um erro no login, tente novamente mais tarde",
+              Colors.red,
+              context);
+        }
       } else {
         CommonUtils.showSnackBar("Login Invalido", Colors.red, context);
       }
