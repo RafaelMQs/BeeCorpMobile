@@ -40,7 +40,7 @@ class SignInController {
     return result;
   }
 
-  SignInModel? getSignInUser() {
+  SignInModel getSignInUser() {
     final result =
         GetIt.I.get<LocalStorage>().getString(LIST_OF_LOGGED_USER_KEY);
 
@@ -50,10 +50,13 @@ class SignInController {
               (signInModelMap) => SignInModel.fromMap(signInModelMap))
           .firstOrNull;
 
+      if (dateFromStorage == null) {
+        throw Exception();
+      }
       return dateFromStorage;
     }
 
-    return null;
+    throw Exception();
   }
 
   LocalStorageResult removeSignInUsers() {

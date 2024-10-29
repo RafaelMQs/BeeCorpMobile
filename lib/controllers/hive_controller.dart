@@ -33,4 +33,9 @@ class HiveController {
 
     return [];
   }
+
+  List<HiveModel> getHivesBasedInUserId(String userId) {
+    List<HiveModel> hiveModels = getHives();
+    return hiveModels.where((hiveModel) => hiveModel.userId == userId).toList();
+  }
 }

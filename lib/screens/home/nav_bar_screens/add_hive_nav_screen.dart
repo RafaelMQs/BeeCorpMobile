@@ -1,5 +1,3 @@
-import 'dart:developer';
-
 import 'package:bee_corp_app/controllers/hive_controller.dart';
 import 'package:bee_corp_app/controllers/local_storage/local_storage.dart';
 import 'package:bee_corp_app/controllers/sign_in_controller.dart';
@@ -8,7 +6,6 @@ import 'package:bee_corp_app/models/sign_in_model.dart';
 import 'package:bee_corp_app/screens/login/components/button_field.dart';
 import 'package:bee_corp_app/screens/login/components/input_field.dart';
 import 'package:bee_corp_app/screens/login/components/text_field_container.dart';
-import 'package:bee_corp_app/screens/login/login_screen.dart';
 import 'package:bee_corp_app/screens/utils/common_utils.dart';
 import 'package:flutter/material.dart';
 import 'package:uuid/uuid.dart';
@@ -29,6 +26,14 @@ class _AddHiveNavScreen extends State<AddHiveNavScreen> {
   final TextEditingController _hiveCode = TextEditingController();
   final TextEditingController _hiveWeight = TextEditingController();
   final TextEditingController _hiveStatus = TextEditingController();
+
+  late SignInModel loginUser;
+
+  @override
+  void initState() {
+    loginUser = _signInController.getSignInUser();
+    super.initState();
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -65,7 +70,7 @@ class _AddHiveNavScreen extends State<AddHiveNavScreen> {
             inputController: _hiveCode,
             keyboardType: TextInputType.emailAddress,
             labelText: 'Código',
-            hintText: 'Digite o código de sua colmeia',
+            hintText: 'Digite o Código de sua Colmeia',
             prefixIcon: const Icon(Icons.code),
             validator: (value) => value!.isEmpty
                 ? "Por favor, digite o código de sua colmeia"
@@ -100,39 +105,24 @@ class _AddHiveNavScreen extends State<AddHiveNavScreen> {
 
   void registerHive() {
     if (_formKey.currentState!.validate()) {
-      SignInModel? loginUser = _signInController.getSignInUser();
-      if (loginUser != null) {
-        HiveModel hiveModel = HiveModel(
-          const Uuid().v7(),
-          loginUser.userId,
-          _hiveCode.text,
-          _hiveWeight.text,
-          _hiveStatus.text,
-        );
+      HiveModel hiveModel = HiveModel(
+        const Uuid().v7(),
+        loginUser.userId,
+        _hiveCode.text,
+        _hiveWeight.text,
+        _hiveStatus.text,
+      );
 
-        LocalStorageResult result = _hiveController.saveHive(hiveModel);
+      LocalStorageResult result = _hiveController.saveHive(hiveModel);
 
-        if (result != LocalStorageResult.failed) {
-          CommonUtils.showSnackBar(
-              "Registro salvo com sucesso!", Colors.green, context);
-        } else {
-          CommonUtils.showSnackBar(
-              "Houve um erro ao salvar seu registro, tente novamente mais tarde",
-              Colors.red,
-              context);
-        }
+      if (result != LocalStorageResult.failed) {
+        CommonUtils.showSnackBar(
+            "Registro salvo com sucesso!", Colors.green, context);
       } else {
         CommonUtils.showSnackBar(
-            "Houve um erro com sua sessão. Entre novamente!",
+            "Houve um erro ao salvar seu registro, tente novamente mais tarde",
             Colors.red,
             context);
-
-        Navigator.pushAndRemoveUntil<void>(
-          context,
-          MaterialPageRoute<void>(
-              builder: (BuildContext context) => const LoginScreen()),
-          ModalRoute.withName('/'),
-        );
       }
     }
   }
