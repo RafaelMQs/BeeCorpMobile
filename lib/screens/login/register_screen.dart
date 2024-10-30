@@ -1,10 +1,10 @@
 import 'package:bee_corp_app/controllers/local_storage/local_storage.dart';
 import 'package:bee_corp_app/controllers/sign_up_controller.dart';
 import 'package:bee_corp_app/models/sign_up_model.dart';
-import 'package:bee_corp_app/screens/login/components/button_field.dart';
-import 'package:bee_corp_app/screens/login/components/input_field.dart';
-import 'package:bee_corp_app/screens/login/components/password_input_field.dart';
-import 'package:bee_corp_app/screens/login/components/text_field_container.dart';
+import 'package:bee_corp_app/components/button_field.dart';
+import 'package:bee_corp_app/components/input_field.dart';
+import 'package:bee_corp_app/components/password_input_field.dart';
+import 'package:bee_corp_app/components/text_field_container.dart';
 import 'package:bee_corp_app/screens/utils/common_utils.dart';
 import 'package:flutter/material.dart';
 import 'package:uuid/uuid.dart';
@@ -33,19 +33,24 @@ class _RegisterScreen extends State<RegisterScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      body: Center(
-        child: Column(
-          mainAxisAlignment: MainAxisAlignment.center,
-          crossAxisAlignment: CrossAxisAlignment.center,
-          children: <Widget>[
-            const Text(
-              'Cadastrar',
-              style: TextStyle(fontSize: 35, fontWeight: FontWeight.bold),
+      body: SafeArea(
+        child: Center(
+          child: SingleChildScrollView(
+            reverse: true,
+            child: Column(
+              mainAxisAlignment: MainAxisAlignment.center,
+              crossAxisAlignment: CrossAxisAlignment.center,
+              children: <Widget>[
+                const Text(
+                  'Cadastrar',
+                  style: TextStyle(fontSize: 35, fontWeight: FontWeight.bold),
+                ),
+                Form(key: _formKey, child: buildInputs()),
+              ],
             ),
-            Form(key: _formKey, child: buildInputs()),
-          ],
+          )
         ),
-      ),
+      )
     );
   }
 

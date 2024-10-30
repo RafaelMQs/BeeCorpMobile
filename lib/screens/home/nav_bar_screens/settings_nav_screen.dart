@@ -1,3 +1,4 @@
+import 'package:bee_corp_app/screens/home/components/default_nav_screen.dart';
 import 'package:flutter/material.dart';
 
 class SettingsNavScreen extends StatefulWidget {
@@ -12,15 +13,9 @@ class _SettingsNavScreen extends State<SettingsNavScreen> {
   Widget build(BuildContext context) {
     final ColorScheme colorScheme = Theme.of(context).colorScheme;
 
-    return Scaffold(
-      appBar: AppBar(
-        automaticallyImplyLeading: false,
-        title: const Text('Settings'),
-        backgroundColor: colorScheme.inversePrimary,
-        shadowColor: colorScheme.shadow,
-        elevation: 1,
-      ),
-      body: const Center(
+    return const DefaultNavScreen(
+      title: 'Settings',
+      body: Center(
         child: Text("Settings"),
       ),
     );

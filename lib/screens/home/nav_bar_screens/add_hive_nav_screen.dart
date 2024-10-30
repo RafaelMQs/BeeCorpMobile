@@ -3,9 +3,10 @@ import 'package:bee_corp_app/controllers/local_storage/local_storage.dart';
 import 'package:bee_corp_app/controllers/sign_in_controller.dart';
 import 'package:bee_corp_app/models/hive_model.dart';
 import 'package:bee_corp_app/models/sign_in_model.dart';
-import 'package:bee_corp_app/screens/login/components/button_field.dart';
-import 'package:bee_corp_app/screens/login/components/input_field.dart';
-import 'package:bee_corp_app/screens/login/components/text_field_container.dart';
+import 'package:bee_corp_app/components/button_field.dart';
+import 'package:bee_corp_app/components/input_field.dart';
+import 'package:bee_corp_app/components/text_field_container.dart';
+import 'package:bee_corp_app/screens/home/components/default_nav_screen.dart';
 import 'package:bee_corp_app/screens/utils/common_utils.dart';
 import 'package:flutter/material.dart';
 import 'package:uuid/uuid.dart';
@@ -39,14 +40,8 @@ class _AddHiveNavScreen extends State<AddHiveNavScreen> {
   Widget build(BuildContext context) {
     final ColorScheme colorScheme = Theme.of(context).colorScheme;
 
-    return Scaffold(
-      appBar: AppBar(
-        automaticallyImplyLeading: false,
-        title: const Text('Adicionar Colmeia'),
-        backgroundColor: colorScheme.inversePrimary,
-        shadowColor: colorScheme.shadow,
-        elevation: 1,
-      ),
+    return DefaultNavScreen(
+      title: 'Adicionar Colmeia',
       body: Center(
         child: Column(
           mainAxisAlignment: MainAxisAlignment.center,
@@ -79,7 +74,7 @@ class _AddHiveNavScreen extends State<AddHiveNavScreen> {
             inputController: _hiveWeight,
             keyboardType: TextInputType.number,
             labelText: 'Peso',
-            hintText: 'Digite o Peso de sua Colmeia',
+            hintText: 'Digite o Peso de sua Colmeia em mg',
             prefixIcon: const Icon(Icons.line_weight),
             validator: (value) => value!.isEmpty
                 ? "Por favor, digite o peso de sua colmeia"
@@ -106,12 +101,12 @@ class _AddHiveNavScreen extends State<AddHiveNavScreen> {
   void registerHive() {
     if (_formKey.currentState!.validate()) {
       HiveModel hiveModel = HiveModel(
-        const Uuid().v7(),
-        loginUser.userId,
-        _hiveCode.text,
-        _hiveWeight.text,
-        _hiveStatus.text,
-      );
+          const Uuid().v7(),
+          loginUser.userId,
+          _hiveCode.text,
+          _hiveWeight.text,
+          _hiveStatus.text,
+          DateTime.now().toString());
 
       LocalStorageResult result = _hiveController.saveHive(hiveModel);
 

@@ -4,23 +4,25 @@ class HiveModel {
   final String hiveCode;
   final String hiveWeight;
   final String hiveStatus;
+  final String hiveCreationDate;
 
   HiveModel(this.hiveId, this.userId, this.hiveCode, this.hiveWeight,
-      this.hiveStatus);
+      this.hiveStatus, this.hiveCreationDate);
 
   Map<String, String> toMap() => {
         'hiveId': hiveId,
         'userId': userId,
         'hiveCode': hiveCode,
         'hiveWeight': hiveWeight,
-        'hiveStatus': hiveStatus
+        'hiveStatus': hiveStatus,
+        'hiveCreationDate': hiveCreationDate,
       };
 
   factory HiveModel.fromMap(Map map) => HiveModel(
-        map['hiveId'],
-        map['userId'],
-        map['hiveCode'],
-        map['hiveWeight'],
-        map['hiveStatus'],
-      );
+      map['hiveId'],
+      map['userId'],
+      map['hiveCode'],
+      map['hiveWeight'],
+      map['hiveStatus'],
+      map['hiveCreationDate']);
 }

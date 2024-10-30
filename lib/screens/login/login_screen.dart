@@ -1,12 +1,13 @@
+import 'package:bee_corp_app/components/button_field.dart';
+import 'package:bee_corp_app/components/input_field.dart';
+import 'package:bee_corp_app/components/password_input_field.dart';
+import 'package:bee_corp_app/components/text_field_container.dart';
 import 'package:bee_corp_app/controllers/local_storage/local_storage.dart';
 import 'package:bee_corp_app/controllers/sign_in_controller.dart';
+import 'package:bee_corp_app/controllers/sign_up_controller.dart';
 import 'package:bee_corp_app/models/sign_in_model.dart';
 import 'package:bee_corp_app/models/sign_up_model.dart';
 import 'package:bee_corp_app/screens/home/home_screen.dart';
-import 'package:bee_corp_app/screens/login/components/button_field.dart';
-import 'package:bee_corp_app/screens/login/components/input_field.dart';
-import 'package:bee_corp_app/screens/login/components/password_input_field.dart';
-import 'package:bee_corp_app/screens/login/components/text_field_container.dart';
 import 'package:bee_corp_app/screens/login/register_screen.dart';
 import 'package:bee_corp_app/screens/utils/common_utils.dart';
 import 'package:flutter/material.dart';
@@ -22,6 +23,8 @@ class _LoginScreen extends State<LoginScreen> {
   final _formKey = GlobalKey<FormState>();
 
   final SignInController _signInController = SignInController();
+  final SignUpController _signUpController = SignUpController();
+
   final TextEditingController _userEmailLogin = TextEditingController();
   final TextEditingController _userPasswordLogin = TextEditingController();
 

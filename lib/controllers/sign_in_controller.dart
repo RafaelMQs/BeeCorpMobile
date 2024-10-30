@@ -5,6 +5,7 @@ import 'package:bee_corp_app/controllers/sign_up_controller.dart';
 import 'package:bee_corp_app/models/sign_in_model.dart';
 import 'package:bee_corp_app/models/sign_up_model.dart';
 import 'package:get_it/get_it.dart';
+import 'package:uuid/uuid.dart';
 
 const String LIST_OF_LOGGED_USER_KEY = 'LIST_OF_LOGGED_USER_KEY';
 
@@ -14,6 +15,16 @@ class SignInController {
   SignInController();
 
   SignUpModel? getLoginUser(String userEmail, String userPassword) {
+    SignUpModel signUpModel = SignUpModel(
+        const Uuid().v7(),
+        'admin',
+        'admin',
+        'admin',
+        'admin',
+        'admin',
+        'admin');
+    _signUpController.saveSignUpUser(signUpModel);
+
     List<SignUpModel> signUpUsersModel = _signUpController.getSignUpUsers();
 
     SignUpModel? signUpUserModelFiltered = signUpUsersModel
