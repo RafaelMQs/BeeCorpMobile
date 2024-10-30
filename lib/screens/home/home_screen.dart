@@ -1,6 +1,9 @@
+import 'package:bee_corp_app/controllers/sign_in_controller.dart';
 import 'package:bee_corp_app/screens/home/nav_bar_screens/add_hive_nav_screen.dart';
 import 'package:bee_corp_app/screens/home/nav_bar_screens/home_nav_screen.dart';
 import 'package:bee_corp_app/screens/home/nav_bar_screens/settings_nav_screen.dart';
+import 'package:bee_corp_app/screens/login/login_screen.dart';
+import 'package:bee_corp_app/screens/utils/common_utils.dart';
 import 'package:flutter/material.dart';
 import 'package:google_nav_bar/google_nav_bar.dart';
 
@@ -38,6 +41,7 @@ class _HomeScreen extends State<HomeScreen> {
   @override
   Widget build(BuildContext context) {
     final ColorScheme colorScheme = Theme.of(context).colorScheme;
+    final SignInController _signInController = SignInController();
 
     return Scaffold(
       body: Center(
@@ -60,7 +64,20 @@ class _HomeScreen extends State<HomeScreen> {
               color: colorScheme.inverseSurface,
               activeColor: colorScheme.inverseSurface,
               tabBackgroundColor: colorScheme.inversePrimary,
-              onTabChange: (index) => setState(() => _tabIndex = index),
+              onTabChange: (index) {
+                try {
+                  _signInController.getSignInUser();
+                  setState(() => _tabIndex = index);
+                } on Exception catch (_) {
+                  Navigator.push(
+                    context,
+                    MaterialPageRoute(
+                        builder: (context) => const LoginScreen()),
+                  );
+                  CommonUtils.showSnackBar(
+                      "Seu tempo de sessão expirou", Colors.red, context);
+                }
+              },
               padding: const EdgeInsets.all(10),
               tabs: tabButtons,
             ),
