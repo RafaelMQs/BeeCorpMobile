@@ -25,17 +25,12 @@ class _HomeScreen extends State<HomeScreen> {
     GButton(
       icon: Icons.add,
       text: "Adicionar Registro",
-    ),
-    GButton(
-      icon: Icons.settings,
-      text: "Configurações",
-    ),
+    )
   ];
 
   List<Widget> widgets = const [
     HomeNavScreen(),
     AddHiveNavScreen(),
-    SettingsNavScreen(),
   ];
 
   @override

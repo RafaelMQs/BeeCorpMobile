@@ -66,24 +66,28 @@ class _LoginScreen extends State<LoginScreen> {
             child: const Text('Entrar'),
           ),
         ),
-        Row(
+        const Row(
           mainAxisAlignment: MainAxisAlignment.center,
           children: [
-            const Text("Não possui uma conta cadastrada? "),
-            GestureDetector(
-              child: const Text(
-                "Cadastre-se",
-                style: TextStyle(fontWeight: FontWeight.bold),
-              ),
-              onTap: () => Navigator.push(
-                context,
-                MaterialPageRoute(
-                  builder: (context) => const RegisterScreen(
-                    title: "RegisterScreen",
-                  ),
-                ),
-              ),
-            )
+            Text("Não possui uma conta cadastrada? "),
+            Text(
+              "Contate seu suporte",
+              style: TextStyle(fontWeight: FontWeight.bold),
+            ),
+            // GestureDetector(
+            //   child: const Text(
+            //     "Cadastre-se",
+            //     style: TextStyle(fontWeight: FontWeight.bold),
+            //   ),
+            //   onTap: () => Navigator.push(
+            //     context,
+            //     MaterialPageRoute(
+            //       builder: (context) => const RegisterScreen(
+            //         title: "RegisterScreen",
+            //       ),
+            //     ),
+            //   ),
+            // )
           ],
         )
       ],
